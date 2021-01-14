@@ -1,75 +1,64 @@
 import chess
 
-#Copied from some stackoverflow page
-#The guy coded thiis for only starting position for some reason
-def printCrntSquares(board:chess.Board):
-    print(" square | row | col | type | piece | color | field")
-    print("--------+-----+-----+------+-------+-------+------")
-    for row in range(0,8):
-         for col in range(0,8):
-            squareIndex=row*8+col
-            square=chess.SQUARES[squareIndex]
-            piece = board.piece_at(square)
-            fieldColor=(col+row)%2==1
-            if piece is None:
-                assert row in {2,3,4,5}
-            else:
-                print("%7d | %3d | %3d | %4d | %5s | %4s | %4s" % (square,row,col,piece.piece_type,piece.symbol(),"white" if piece.color else "black","black" if col%2!=row%2 else "white"))
-            if row in {0,1}:
-              assert piece.color==chess.WHITE
-              # white symbols are upper case
-              assert ord(piece.symbol())>ord('A') and ord(piece.symbol())<ord('Z')
-            if row in {6,7}:
-              assert piece.color==chess.BLACK
-              # black symbols are lower case
-              assert ord(piece.symbol())>ord('a') and ord(piece.symbol())<ord('z')
 
-'''
+              
+def MoveGenerator(board:chess.Board,int:square):
 
-blckPawn1 = chess.Piece(1,0)
-blckPawn2 = chess.Piece(1,0)
-blckPawn3 = chess.Piece(1,0)
-blckPawn4 = chess.Piece(1,0)
-blckPawn5 = chess.Piece(1,0)
-blckPawn6 = chess.Piece(1,0)
-blckPawn7 = chess.Piece(1,0)
-blckPawn8 = chess.Piece(1,0)
-
-blckKnght1 = chess.Piece(2,0)
-blckKnght2 = chess.Piece(2,0)
-
-blckBshp1 = chess.Piece(3,0)
-blckBshp2 = chess.Piece(3,0)
-
-blckRook1 = chess.Piece(4,0)
-blckRook2 = chess.Piece(4,0)
-
-blckQnn = chess.Piece(5,0)
-blckKng = chess.Piece(6,0)
+	mvList = []
+	piece = board.piece_at(square)
 
 
+	if piece.color == board.turn:
+		pieceType = piece.piece_type
+		pieceColor = piece.color
+                
+		pieceSquare = chess.square_name(square)
+		#0-A 7-H
+		pieceFile = chess.square_file(square)
+		pieceRank = chess.square(square)
+                
+		#PAWN
+		if pieceType == 1:
 
-whtPawn1 = chess.Piece(1,1)
-whtPawn2 = chess.Piece(1,1)
-whtPawn3 = chess.Piece(1,1)
-whtPawn4 = chess.Piece(1,1)
-whtPawn5 = chess.Piece(1,1)
-whtPawn6 = chess.Piece(1,1)
-whtPawn7 = chess.Piece(1,1)
-whtPawn8 = chess.Piece(1,1)
+			#Taking to right
+			#Cant take to right if its on the right side of the board
+			#Or its on the 7th rank of the board(2th rank for black)
+			if (square + 1) % 2 != 0:
+				if board.piece_at(square + 9) is not None and square < 55:
+					mvList.append(str(ord(pieceFile)+1) + str(pieceRank+1))
+                        	
+			#Taking to left
+			#Cant take to left if its on the left side of the board
+			#or itss on the 7th rank of the board
+			if square % 2 != 0:
+				if board.piece_at(square + 7) is not None and square < 55 and square != 48:
+					mvList.append(str(ord(pieceFile)-1) + str(pieceRank+1))
+                        	
+			if square < 56 and board.piece_at(square + 8) is None:
+	                    	mvList.append(str(ord(pieceFile)) + str(pieceRank+1))
 
-whtKnght1 = chess.Piece(2,1)
-whtKnght2 = chess.Piece(2,1)
+			if pieceRank == 2 and board.piece_at(square + 16) is None:
+				mvList.append(str(ord(pieceFile)) + str(pieceRank+2))
 
-whtBshp1 = chess.Piece(3,1)
-whtBshp2 = chess.Piece(3,1)
+		
+		elif pieceType == 2:
+			"""KNIGHT"""
 
-whtRook1 = chess.Piece(4,1)
-whtRook2 = chess.Piece(4,1)
+		elif pieceType == 3:
+			"""BISHOP"""
 
-whtQnn = chess.Piece(5,1)
-whtKng = chess.Piece(6,1)
-'''
+		elif pieceType == 4:
+			"""ROOK"""
+
+		elif pieceType == 5:
+			"""QUEENN"""
+
+		else:
+			"""KING"""
+                
+		return mvList
+
+
 
 board = chess.Board()
 
@@ -85,42 +74,15 @@ print("\n-------1-------\n")
 moveToPlay = ""
 maxMoveRate =  0
 
+print(board_unicode())
 print(board.legal_moves)
 
-def printCrntSquares(board:chess.Board):
-    for row in range(0,8):
-         for col in range(0,8):
-            squareIndex=row*8+col
-            square=chess.SQUARES[squareIndex]
-            piece = board.piece_at(square)
-            fieldColor=(col+row)%2==1
 
-            if piece.color == board.turn:
-                pieceType = piece.piece_type
-                pieceColor = piece.color
 
-                if pieceType == 1:
-                else if pieceType == 2:
-                else if pieceType == 3:
-                else if pieceType == 4:
-                else if pieceType == 5:
-                else:
+print(MoveGenerator(board,8))
+print(MoveGenerator(board,9))
+print(MoveGenerator(board,10))
+print(MoveGenerator(board,11))  
 
-'''
-            if piece is None:
-                assert row in {2,3,4,5}
-            else:
-                print("%7d | %3d | %3d | %4d | %5s | %4s | %4s" % (square,row,col,piece.piece_type,piece.symbol(),"white" if piece.color else "black","black" if col%2!=row%2 else "white"))
-            if row in {0,1}:
-              assert piece.color==chess.WHITE
-              # white symbols are upper case
-              assert ord(piece.symbol())>ord('A') and ord(piece.symbol())<ord('Z')
-            if row in {6,7}:
-              assert piece.color==chess.BLACK
-              # black symbols are lower case
-              assert ord(piece.symbol())>ord('a') and ord(piece.symbol())<ord('z')
 
-'''
-
-print(board_unicode())    
 
