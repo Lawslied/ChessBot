@@ -72,7 +72,6 @@ whtKng = chess.Piece(6,1)
 '''
 
 board = chess.Board()
-<<<<<<< HEAD
 
 
 print("\n-----START-----\n")
@@ -124,23 +123,4 @@ def printCrntSquares(board:chess.Board):
 '''
 
 print(board_unicode())    
-
-=======
-squares = chess.SquareSet([chess.A8, chess.A1])
-print(squares)
-print()
-squares = chess.SquareSet(chess.BB_A8 | chess.BB_RANK_1)
-print(squares)
-
-#classlara bakılcak şimdilik salıyoruz.
-
-
-#REALLY THO
-#DID I FINNALY MANAGE TO DO IT AFTER ALL THESE HARD WORKING HOURS INSTEAD OF A SIMPLE UNINSTALL -> INSTALL
-#i mean the git from linux terminal btw dont worry.
-#code is also a mess but what can i do sometimes
-#i am a mess too
-#why are u still here
-#gtfo
->>>>>>> fcc42bd7579fc6545b153fd7dbb4f7e5391a341c
 
